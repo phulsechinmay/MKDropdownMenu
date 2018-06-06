@@ -317,6 +317,7 @@ static UIImage *disclosureIndicatorImage = nil;
 #pragma mark Delegate Protocol
 
 @protocol MKDropdownMenuContentViewControllerDelegate <NSObject>
+- (void) DropdownMenuDeleteFunction;
 - (NSInteger)numberOfRows;
 - (NSInteger)maximumNumberOfRows;
 - (NSAttributedString *)attributedTitleForRow:(NSInteger)row;
@@ -338,6 +339,7 @@ static UIImage *disclosureIndicatorImage = nil;
     BOOL _didSetRoundedCorners;
 }
 @property (weak, nonatomic) id<MKDropdownMenuContentViewControllerDelegate> delegate;
+@property (nullable, weak, nonatomic) IBOutlet id<MKDropdownMenuDelegate> dropdownMenuDelegate;
 
 @property (strong, nonatomic) UIView *containerView;
 
@@ -794,6 +796,25 @@ static UIImage *disclosureIndicatorImage = nil;
 
 #pragma mark - UITableView
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MKDropdownMenu* MKDM = (MKDropdownMenu*) self.delegate;
+    // Return NO if you do not want the specified item to be editable.
+    if([MKDM.delegate respondsToSelector:@selector(dropdownMenu:willDeleteObjectAtIndexPath:)])
+        return YES;
+    else
+        return NO;
+}
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MKDropdownMenu* MKDM = (MKDropdownMenu*) self.delegate;
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [MKDM.delegate dropdownMenu:MKDM willDeleteObjectAtIndexPath:indexPath];
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.rowsCount;
 }
@@ -1045,6 +1066,7 @@ static const CGFloat kScrollViewBottomSpace = 5;
 
 @implementation MKDropdownMenu
 
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -1295,6 +1317,7 @@ static const CGFloat kScrollViewBottomSpace = 5;
         self.contentViewController.contentInset = [self contentInsetForSelectedComponent];
     }
 }
+
 
 #pragma mark - Properties
 

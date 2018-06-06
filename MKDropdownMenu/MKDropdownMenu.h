@@ -178,6 +178,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Return the maximum rows limit.
 - (NSInteger)dropdownMenu:(MKDropdownMenu *)dropdownMenu maximumNumberOfRowsInComponent:(NSInteger)component;
 
+// Used to delete something from the dropdownMenu
+- (void) dropdownMenu:(MKDropdownMenu *)dropdownMenu willDeleteObjectAtIndexPath:(NSIndexPath *) indexPath;
 
 // The following methods return either a plain NSString, an NSAttributedString, or a custom view to display the row for the component:
 

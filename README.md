@@ -5,7 +5,9 @@
 [![License](https://img.shields.io/cocoapods/l/MKDropdownMenu.svg?style=flat)](http://cocoapods.org/pods/MKDropdownMenu)
 [![Platform](https://img.shields.io/cocoapods/p/MKDropdownMenu.svg?style=flat)](http://cocoapods.org/pods/MKDropdownMenu)
 
-Dropdown Menu for iOS with many customizable parameters to suit any needs.
+"Dropdown Menu for iOS with many customizable parameters to suit any needs."
+
+This is a version of the MKDropdownMenu with deletion capabilities for the items in the menu. 
 
 Inspired by UIPickerView.
 
@@ -74,6 +76,17 @@ The appearance and behavior of the `MKDropdownMenu` can be customized by setting
 
 The default menu appearance can be customized throughout the app using the available `UI_APPEARANCE_SELECTOR` properties.
 
+### Deleting items
+
+To handle the deletion of items in the menu, implement the following function in the MKDropdownMenuDelegate class:
+
+```objc
+- (void) dropdownMenu:(MKDropdownMenu *)dropdownMenu willDeleteObjectAtIndexPath:(NSIndexPath *) indexPath;
+ ```
+
+This will automatically enable deletion, which will be disabled until the deleteion delegate function is implemented.
+
+##### Remember to reload the dropdown menu inside your deletion delegate function!
 
 ## Requirements
 - iOS 8+
@@ -81,3 +94,5 @@ The default menu appearance can be customized throughout the app using the avail
 
 ## License
 `MKDropdownMenu` is available under the MIT license. See the LICENSE file for more info.
+
+##### Fork by Chinmay Phulse
